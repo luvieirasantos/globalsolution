@@ -2,6 +2,25 @@
 
 Sistema de gerenciamento de cursos corporativos com foco em energia sustentável, desenvolvido com Spring Boot e recursos de IA generativa.
 
+## 🌐 Aplicação em Produção
+
+**URL:** https://globalsolution-66v2.onrender.com
+
+### Endpoints em Produção
+
+| Endpoint | URL |
+|----------|-----|
+| Swagger UI | https://globalsolution-66v2.onrender.com/swagger-ui/index.html |
+| Cursos | https://globalsolution-66v2.onrender.com/cursos |
+| Empresas | https://globalsolution-66v2.onrender.com/empresas |
+| Funcionários | https://globalsolution-66v2.onrender.com/funcionarios |
+| Matrículas | https://globalsolution-66v2.onrender.com/matriculas |
+| Competições | https://globalsolution-66v2.onrender.com/competicoes |
+| IA Recomendação | https://globalsolution-66v2.onrender.com/ai/recommendation?topic=Java |
+| IA Descrição | https://globalsolution-66v2.onrender.com/ai/course-description?courseName=Spring |
+
+**Autenticação:** Basic Auth (admin/admin)
+
 ## Tecnologias
 
 - **Java 17**
@@ -55,6 +74,8 @@ PORT=8080
 
 ### 3. Iniciar RabbitMQ com Docker
 
+1 - Abra o docker
+
 ```bash
 docker run -d \
   --name rabbitmq \
@@ -74,12 +95,6 @@ docker run -d \
 mvn spring-boot:run
 ```
 
-Ou compile e execute o JAR:
-
-```bash
-mvn clean package -DskipTests
-java -jar target/globalsolution-0.0.1-SNAPSHOT.jar
-```
 
 ## Acessos
 
@@ -198,7 +213,10 @@ src/
 
 ## Integrantes
 
-- Luana Vieira Santos - RM558935
+- Lu Vieira Santos - RM558935
+- Melissa Perreira
+- Diego Furigo
+
 
 ## Licença
 
