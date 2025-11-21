@@ -1,0 +1,51 @@
+spring:
+  application:
+    name: globalsolution
+  datasource:
+    url: ${DATABASE_URL:jdbc:oracle:thin:@oracle.fiap.com.br:1521:ORCL}
+    username: ${DATABASE_USERNAME:RM558935}
+    password: ${DATABASE_PASSWORD:310805}
+    driver-class-name: oracle.jdbc.OracleDriver
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 5
+      connection-timeout: 30000
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: false
+  ai:
+    openai:
+      api-key: ${OPENAI_API_KEY}
+      chat:
+        options:
+          model: gpt-4o-mini
+  rabbitmq:
+    host: ${RABBITMQ_HOST:localhost}
+    port: ${RABBITMQ_PORT:5672}
+    username: ${RABBITMQ_USERNAME:guest}
+    password: ${RABBITMQ_PASSWORD:guest}
+  messages:
+    basename: messages
+    encoding: UTF-8
+
+server:
+  port: ${PORT:8080}
+
+logging:
+  level:
+    org.springframework.web: WARN
+    org.hibernate: WARN
+    com.fiap.globalsolution: INFO
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      show-details: when-authorized
