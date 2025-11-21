@@ -17,6 +17,7 @@ spring:
     properties:
       hibernate:
         format_sql: false
+    database-platform: org.hibernate.dialect.OracleDialect
   ai:
     openai:
       api-key: ${OPENAI_API_KEY}
@@ -37,6 +38,7 @@ spring:
 
 server:
   port: ${PORT:8080}
+  address: 0.0.0.0
 
 logging:
   level:
