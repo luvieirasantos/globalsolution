@@ -2,6 +2,9 @@
 
 Sistema de gerenciamento de cursos corporativos com foco em energia sustentável, desenvolvido com Spring Boot e recursos de IA generativa.
 
+## 🌐 Video
+https://youtu.be/88dd8UPviSY
+
 ## 🌐 Aplicação em Produção
 
 **URL:** https://globalsolution-66v2.onrender.com
