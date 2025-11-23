@@ -3,7 +3,7 @@
 Sistema de gerenciamento de cursos corporativos com foco em energia sustentável, desenvolvido com Spring Boot e recursos de IA generativa.
 
 ## 🌐 Video
-https://youtu.be/88dd8UPviSY
+https://youtu.be/b3RP9k4cexU
 
 ## 🌐 Aplicação em Produção
 
