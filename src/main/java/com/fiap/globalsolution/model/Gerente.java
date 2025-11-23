@@ -1,5 +1,6 @@
 package com.fiap.globalsolution.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -59,6 +60,7 @@ public class Gerente {
     @Column(nullable = false, length = 20)
     private String status = "ATIVO";
 
+    @JsonIgnore
     @OneToMany(mappedBy = "gerente", cascade = CascadeType.ALL)
     private List<Time> times;
 }

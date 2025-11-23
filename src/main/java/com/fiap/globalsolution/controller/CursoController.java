@@ -11,12 +11,15 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.PagedModel;
 import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import io.swagger.v3.oas.annotations.Parameter;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
@@ -34,12 +37,21 @@ public class CursoController {
     @GetMapping
     @Operation(summary = "Listar todos os cursos")
     @Cacheable("cursos")
-    public ResponseEntity<PagedModel<EntityModel<Curso>>> findAll(Pageable pageable) {
+    public ResponseEntity<PagedModel<EntityModel<Curso>>> findAll(
+            @Parameter(description = "Número da página (começa em 0)", example = "0")
+            @RequestParam(defaultValue = "0") int page,
+            @Parameter(description = "Tamanho da página", example = "20")
+            @RequestParam(defaultValue = "20") int size,
+            @Parameter(description = "Ordenação", example = "nomeCurso,asc")
+            @RequestParam(defaultValue = "") String sort) {
+
+        Pageable pageable = PageRequest.of(page, size,
+            sort.isEmpty() ? Sort.unsorted() : parseSortParameter(sort));
         Page<Curso> cursos = cursoService.findAll(pageable);
         PagedModel<EntityModel<Curso>> pagedModel = pagedResourcesAssembler.toModel(cursos, curso ->
             EntityModel.of(curso,
                 linkTo(methodOn(CursoController.class).findById(curso.getId())).withSelfRel(),
-                linkTo(methodOn(CursoController.class).findAll(pageable)).withRel("cursos")
+                linkTo(methodOn(CursoController.class).findAll(page, size, sort)).withRel("cursos")
             )
         );
         return ResponseEntity.ok(pagedModel);
@@ -54,7 +66,7 @@ public class CursoController {
 
         EntityModel<Curso> model = EntityModel.of(curso,
             linkTo(methodOn(CursoController.class).findById(id)).withSelfRel(),
-            linkTo(methodOn(CursoController.class).findAll(Pageable.unpaged())).withRel("cursos")
+            linkTo(methodOn(CursoController.class).findAll(0, 20, "")).withRel("cursos")
         );
 
         return ResponseEntity.ok(model);
@@ -68,7 +80,7 @@ public class CursoController {
 
         EntityModel<Curso> model = EntityModel.of(saved,
             linkTo(methodOn(CursoController.class).findById(saved.getId())).withSelfRel(),
-            linkTo(methodOn(CursoController.class).findAll(Pageable.unpaged())).withRel("cursos")
+            linkTo(methodOn(CursoController.class).findAll(0, 20, "")).withRel("cursos")
         );
 
         return ResponseEntity.status(HttpStatus.CREATED).body(model);
@@ -87,7 +99,7 @@ public class CursoController {
 
         EntityModel<Curso> model = EntityModel.of(updated,
             linkTo(methodOn(CursoController.class).findById(id)).withSelfRel(),
-            linkTo(methodOn(CursoController.class).findAll(Pageable.unpaged())).withRel("cursos")
+            linkTo(methodOn(CursoController.class).findAll(0, 20, "")).withRel("cursos")
         );
 
         return ResponseEntity.ok(model);
@@ -102,5 +114,29 @@ public class CursoController {
         }
         cursoService.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    private Sort parseSortParameter(String sortParam) {
+        if (sortParam == null || sortParam.trim().isEmpty()) {
+            return Sort.unsorted();
+        }
+
+        String[] parts = sortParam.split(",");
+        if (parts.length != 2) {
+            return Sort.unsorted();
+        }
+
+        String field = parts[0].trim();
+        String direction = parts[1].trim().toLowerCase();
+
+        if (field.isEmpty() || (!direction.equals("asc") && !direction.equals("desc"))) {
+            return Sort.unsorted();
+        }
+
+        if (direction.equals("asc")) {
+            return Sort.by(Sort.Direction.ASC, field);
+        } else {
+            return Sort.by(Sort.Direction.DESC, field);
+        }
     }
 }

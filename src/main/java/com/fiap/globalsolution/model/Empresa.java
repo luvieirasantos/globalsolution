@@ -1,5 +1,8 @@
 package com.fiap.globalsolution.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fiap.globalsolution.deserializer.EmpresaDeserializer;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -19,6 +22,7 @@ import java.util.List;
 @Builder
 @Entity
 @Table(name = "empresa")
+@JsonDeserialize(using = EmpresaDeserializer.class)
 public class Empresa {
 
     @Id
@@ -55,9 +59,11 @@ public class Empresa {
     @Column(nullable = false, length = 20)
     private String status = "ATIVO";
 
+    @JsonIgnore
     @OneToMany(mappedBy = "empresa", cascade = CascadeType.ALL)
     private List<Gerente> gerentes;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "empresa", cascade = CascadeType.ALL)
     private List<Funcionario> funcionarios;
 }

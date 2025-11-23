@@ -7,7 +7,11 @@
       "Bash(git commit:*)",
       "Bash(git branch:*)",
       "Bash(git remote add:*)",
-      "Bash(git push:*)"
+      "Bash(git push:*)",
+      "Bash(mvn clean compile:*)",
+      "Bash(mvn spring-boot:run:*)",
+      "Bash(mvn compile:*)",
+      "Bash(curl:*)"
     ],
     "deny": [],
     "ask": []

@@ -1,5 +1,6 @@
 package com.fiap.globalsolution.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -59,6 +60,7 @@ public class Curso {
     @Column(nullable = false, length = 20)
     private String status = "ATIVO";
 
+    @JsonIgnore
     @OneToMany(mappedBy = "curso", cascade = CascadeType.ALL)
     private List<Modulo> modulos;
 }

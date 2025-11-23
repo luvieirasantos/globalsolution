@@ -1,6 +1,5 @@
 package com.fiap.globalsolution.dto;
 
-import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,16 +10,11 @@ import lombok.Builder;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class EmpresaDTO {
+public class TimeDTO {
     private Long id;
+    private GerenteDTO gerente;
     @NotBlank
-    private String cnpj;
-    @NotBlank
-    private String razaoSocial;
-    private String nomeFantasia;
-    @NotBlank
-    @Email
-    private String emailCorporativo;
-    private String telefone;
+    private String nomeTime;
+    private String descricao;
     private String status;
 }

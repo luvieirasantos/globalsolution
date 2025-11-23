@@ -2,9 +2,9 @@ spring:
   application:
     name: globalsolution
   datasource:
-    url: ${env.DATABASE_URL}
-    username: ${env.DATABASE_USERNAME}
-    password: ${env.DATABASE_PASSWORD}
+    url: ${DATABASE_URL}
+    username: ${DATABASE_USERNAME}
+    password: ${DATABASE_PASSWORD}
     driver-class-name: oracle.jdbc.OracleDriver
   jpa:
     hibernate:
@@ -16,21 +16,21 @@ spring:
         dialect: org.hibernate.dialect.OracleDialect
   ai:
     openai:
-      api-key: ${env.OPENAI_API_KEY}
+      api-key: ${OPENAI_API_KEY}
       chat:
         options:
           model: gpt-4o-mini
   rabbitmq:
-    host: ${env.RABBITMQ_HOST}
-    port: ${env.RABBITMQ_PORT}
-    username: ${env.RABBITMQ_USERNAME}
-    password: ${env.RABBITMQ_PASSWORD}
+    host: ${RABBITMQ_HOST}
+    port: ${RABBITMQ_PORT}
+    username: ${RABBITMQ_USERNAME}
+    password: ${RABBITMQ_PASSWORD}
   messages:
     basename: messages
     encoding: UTF-8
 
 server:
-  port: ${env.PORT:8080}
+  port: ${PORT:0}
 
 logging:
   level:

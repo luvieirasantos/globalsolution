@@ -1,5 +1,6 @@
 package com.fiap.globalsolution.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
@@ -44,6 +45,7 @@ public class Time {
     @Column(nullable = false, length = 20)
     private String status = "ATIVO";
 
+    @JsonIgnore
     @ManyToMany
     @JoinTable(
         name = "funcionario_time",
