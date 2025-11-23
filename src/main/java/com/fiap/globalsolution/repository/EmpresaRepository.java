@@ -7,4 +7,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface EmpresaRepository extends JpaRepository<Empresa, Long> {
     boolean existsByCnpj(String cnpj);
+    java.util.Optional<Empresa> findByCnpj(String cnpj);
+    java.util.Optional<Empresa> findByEmailCorporativo(String emailCorporativo);
 }

@@ -1,5 +1,6 @@
 package com.fiap.globalsolution.service;
 
+import com.fiap.globalsolution.exception.DuplicateResourceException;
 import com.fiap.globalsolution.model.Empresa;
 import com.fiap.globalsolution.repository.EmpresaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +29,28 @@ public class EmpresaService {
 
     @Transactional
     public Empresa save(Empresa empresa) {
+        validateDuplicate(empresa);
         return empresaRepository.save(empresa);
+    }
+
+    private void validateDuplicate(Empresa empresa) {
+        // Verificar CNPJ duplicado
+        if (empresa.getCnpj() != null) {
+            Optional<Empresa> existingByCnpj = empresaRepository.findByCnpj(empresa.getCnpj());
+            if (existingByCnpj.isPresent() &&
+                (empresa.getId() == null || !existingByCnpj.get().getId().equals(empresa.getId()))) {
+                throw new DuplicateResourceException("Empresa", "CNPJ", empresa.getCnpj());
+            }
+        }
+
+        // Verificar Email Corporativo duplicado
+        if (empresa.getEmailCorporativo() != null) {
+            Optional<Empresa> existingByEmail = empresaRepository.findByEmailCorporativo(empresa.getEmailCorporativo());
+            if (existingByEmail.isPresent() &&
+                (empresa.getId() == null || !existingByEmail.get().getId().equals(empresa.getId()))) {
+                throw new DuplicateResourceException("Empresa", "Email Corporativo", empresa.getEmailCorporativo());
+            }
+        }
     }
 
     @Transactional

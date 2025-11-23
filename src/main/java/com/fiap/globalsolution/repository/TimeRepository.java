@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface TimeRepository extends JpaRepository<Time, Long> {
+    java.util.Optional<Time> findByNomeTime(String nomeTime);
 }

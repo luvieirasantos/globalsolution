@@ -8,4 +8,6 @@ import org.springframework.stereotype.Repository;
 public interface GerenteRepository extends JpaRepository<Gerente, Long> {
     boolean existsByCpf(String cpf);
     boolean existsByEmail(String email);
+    java.util.Optional<Gerente> findByCpf(String cpf);
+    java.util.Optional<Gerente> findByEmail(String email);
 }

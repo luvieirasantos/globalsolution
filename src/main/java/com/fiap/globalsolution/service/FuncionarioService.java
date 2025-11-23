@@ -1,5 +1,6 @@
 package com.fiap.globalsolution.service;
 
+import com.fiap.globalsolution.exception.DuplicateResourceException;
 import com.fiap.globalsolution.model.Funcionario;
 import com.fiap.globalsolution.repository.FuncionarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +29,28 @@ public class FuncionarioService {
 
     @Transactional
     public Funcionario save(Funcionario funcionario) {
+        validateDuplicate(funcionario);
         return funcionarioRepository.save(funcionario);
+    }
+
+    private void validateDuplicate(Funcionario funcionario) {
+        // Verificar CPF duplicado
+        if (funcionario.getCpf() != null) {
+            Optional<Funcionario> existingByCpf = funcionarioRepository.findByCpf(funcionario.getCpf());
+            if (existingByCpf.isPresent() &&
+                (funcionario.getId() == null || !existingByCpf.get().getId().equals(funcionario.getId()))) {
+                throw new DuplicateResourceException("Funcionário", "CPF", funcionario.getCpf());
+            }
+        }
+
+        // Verificar Email duplicado
+        if (funcionario.getEmail() != null) {
+            Optional<Funcionario> existingByEmail = funcionarioRepository.findByEmail(funcionario.getEmail());
+            if (existingByEmail.isPresent() &&
+                (funcionario.getId() == null || !existingByEmail.get().getId().equals(funcionario.getId()))) {
+                throw new DuplicateResourceException("Funcionário", "Email", funcionario.getEmail());
+            }
+        }
     }
 
     @Transactional
